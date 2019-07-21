@@ -2,7 +2,7 @@ FROM codercom/code-server:latest
 
 # Setup python development
 RUN sudo apt-get update
-RUN sudo apt-get install python3.7-dev python3-pip nano -y
+RUN sudo apt-get install python3.7-dev python3-pip nano inetutils-ping -y
 RUN python3.7 -m pip install pip
 RUN python3.7 -m pip install wheel
 
