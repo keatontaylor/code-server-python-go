@@ -1,5 +1,9 @@
 FROM codercom/code-server:latest
 
+# Update to zsh shell
+RUN sudo apt-get install zsh -y
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
 # Setup python development
 RUN sudo apt-get update
 RUN sudo apt-get install python3.7-dev python3-pip nano inetutils-ping -y
@@ -16,5 +20,11 @@ RUN rm -rf /tmp.go.tar.gz
 RUN code-server --install-extension ms-python.python
 RUN code-server --install-extension eamodio.gitlens
 RUN code-server --install-extension ms-vscode.go
+
+# Other stuff
+USER coder
+COPY settings.json /home/coder/.local/share/code-server/User/settings.json
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions /home/coder/.oh-my-zsh/plugins/zsh-autosuggestions
+RUN echo "source ~/.oh-my-zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" >> /home/coder/.zshrc
 
 ENTRYPOINT ["dumb-init", "code-server"]
